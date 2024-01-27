@@ -16,13 +16,17 @@ def evaluate_calculation():
     """Evaluate the current calculation and update the display."""
     global calculation
     try:
+        # Replace '^' with '**' for exponentiation before evaluating
         calculation = str(eval(calculation.replace('^', '**')))
         text_result.delete(1.0, "end")
         text_result.insert(1.0, calculation)
-        calculation = ""
     except Exception as e:
         clear_field()
         text_result.insert(1.0, str(e))
+    finally:
+        # Clear the calculation after evaluation
+        calculation = ""
+
 
 def clear_field():
     """Clear the current calculation and the display."""
@@ -109,7 +113,9 @@ buttons = [
 # Create the buttons and add them to the window
 for i, button_row in enumerate(buttons):
     for j, button_text in enumerate(button_row):
-        if button_text == 'sqrt':
+        if button_text == '=':
+            button = tk.Button(root, text=button_text, command=evaluate_calculation, width=5, font=("Arial", 14))
+        elif button_text == 'sqrt':
             button = tk.Button(root, text=button_text, command=square_root, width=5, font=("Arial", 14))
         elif button_text == 'x^2':
             button = tk.Button(root, text=button_text, command=square, width=5, font=("Arial", 14))
